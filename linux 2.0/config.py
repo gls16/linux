@@ -72,7 +72,7 @@ keys = [
     Key([mod], "p", lazy.spawn("scrot")),
 
     # filemanager
-    Key([mod], "e", lazy.spawn("ranger")),
+    Key([mod], "s", lazy.spawn("spotify")),
     
 ]
 
