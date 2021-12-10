@@ -39,10 +39,10 @@ def triangle_2(background,foreground):
     )
 def icon(icono,background):
     return widget.TextBox(
-    text = icono,
-    background = background,
-    fontsize = 20,
-    padding = 12
+        text = icono,
+        background = background,
+        fontsize = 20,
+        padding = 12
     )
 
 keys = [
