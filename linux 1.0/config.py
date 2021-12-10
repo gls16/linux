@@ -84,7 +84,7 @@ keys = [
     
     # spawn_apps
     Key([mod],"c", lazy.spawn("google-chrome-stable")),
-    Key([mod],"d", lazy.spawn("rofi -show run -theme materia")),
+    Key([mod],"d", lazy.spawn("rofi -show drun ")),
 
     #Audio
     Key([], "XF86AudioLowerVolume", lazy.spawn("pamixer --decrease 5")),
@@ -99,7 +99,7 @@ keys = [
     Key([mod], "p", lazy.spawn("scrot")),
 
     # filemanager
-    Key([mod], "e", lazy.spawn("ranger")),
+    Key([mod], "s", lazy.spawn("spotify")),
     
 ]
 
@@ -159,8 +159,8 @@ screens = [
                 ),
                 widget.TextBox(
                     text = "  ",
-                    fontsize = 43,
-                    padding = -5,
+                    fontsize = 60,
+                    padding = -3,
                     foreground = ["#FFA500","#ed1717"],
                     background = "#101010"
                     
@@ -180,7 +180,7 @@ screens = [
                 widget.TextBox(
                     text = " ",
                     fontsize = 43,
-                    padding = 1,
+                    padding = -1,
                     foreground = ["#7f00ff","#20165b"],
                     background = "#101010",
                 ),
@@ -204,7 +204,7 @@ screens = [
                 widget.TextBox(
                     text = " ",
                     fontsize = 43,
-                    padding = 1,
+                    padding = -1,
                     foreground = ["#52b2bf","#1338be"],
                     background = ["#7f00ff","#20165b"]
                 ),
@@ -227,7 +227,7 @@ screens = [
                 widget.TextBox(
                     text = " ",
                     fontsize = 43,
-                    padding = 1,
+                    padding = -1,
                     foreground = ["#59788e", "#52b2bf"],
                     background = ["#52b2bf","#1338be"],
                 ),
@@ -272,12 +272,4 @@ floating_layout = layout.Floating(float_rules=[
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 
-# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
-# string besides java UI toolkits; you can see several discussions on the
-# mailing lists, GitHub issues, and other WM documentation that suggest setting
-# this string if your java app doesn't work correctly. We may as well just lie
-# and say that we're a working one by default.
-#
-# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
-# java that happens to be on java's whitelist.
 wmname = "LG3D"
