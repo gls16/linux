@@ -1,3 +1,4 @@
+
 from typing import List  # noqa: F401
 
 from libqtile import bar, layout, widget
@@ -9,33 +10,61 @@ from libqtile.utils import guess_terminal
 mod = "mod4"
 terminal = guess_terminal()
 
+color_base = "#101010" 
+
+
+def sep(color):
+    return widget.Sep(     
+        background = color,
+        foreground = color,
+        padding = 4,
+    )
+
+def triangle(background,foreground):
+    return widget.TextBox(
+        text = " ",
+        fontsize = 50,
+        padding = -1,
+        background = background,
+        foreground = foreground
+    )
+
+def triangle_2(background,foreground):
+    return widget.TextBox(
+        text = "  ",
+        fontsize = 28,
+        padding = -1,
+        background = background,
+        foreground = foreground
+    )
+def icon(icono,background):
+    return widget.TextBox(
+    text = icono,
+    background = background,
+    fontsize = 20,
+    padding = 12
+    )
+
 keys = [
     # Switch between windows
     Key([mod], "Left", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "Right", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "Down", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "Up", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "space", lazy.layout.next(),
-        desc="Move window focus to other window"),
+    Key([mod], "space", lazy.layout.next(),desc="Move window focus to other window"),
 
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
-    Key([mod, "shift"], "Left", lazy.layout.shuffle_left(),
-        desc="Move window to the left"),
-    Key([mod, "shift"], "Right", lazy.layout.shuffle_right(),
-        desc="Move window to the right"),
-    Key([mod, "shift"], "Down", lazy.layout.shuffle_down(),
-        desc="Move window down"),
+    Key([mod, "shift"], "Left", lazy.layout.shuffle_left(),desc="Move window to the left"),
+    Key([mod, "shift"], "Right", lazy.layout.shuffle_right(),desc="Move window to the right"),
+    Key([mod, "shift"], "Down", lazy.layout.shuffle_down(),desc="Move window down"),
     Key([mod, "shift"], "Up", lazy.layout.shuffle_up(), desc="Move window up"),
 
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
-    Key([mod, "control"], "Left", lazy.layout.grow_left(),
-        desc="Grow window to the left"),
-    Key([mod, "control"], "Right", lazy.layout.grow_right(),
-        desc="Grow window to the right"),
-    Key([mod, "control"], "Down", lazy.layout.grow_down(),
-        desc="Grow window down"),
+    Key([mod, "control"], "Left", lazy.layout.grow_left(),desc="Grow window to the left"),
+    Key([mod, "control"], "Right", lazy.layout.grow_right(),desc="Grow window to the right"),
+    Key([mod, "control"], "Down", lazy.layout.grow_down(),desc="Grow window down"),
     Key([mod, "control"], "Up", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
 
@@ -54,10 +83,6 @@ keys = [
     Key([mod, "control"], "r", lazy.restart(), desc="Restart Qtile"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(),desc="Spawn a command using a prompt widget"),
-    
-    # spawn_apps
-    Key([mod],"c", lazy.spawn("google-chrome-stable")),
-    Key([mod],"d", lazy.spawn("rofi -show drun ")),
 
     #Audio
     Key([], "XF86AudioLowerVolume", lazy.spawn("pamixer --decrease 5")),
@@ -67,6 +92,10 @@ keys = [
     # Brightness
     Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl set +10%")),
     Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 10%-")),
+
+    # spawn_apps
+    Key([mod],"c", lazy.spawn("google-chrome-stable")),
+    Key([mod],"d", lazy.spawn("rofi -show drun -theme materia")),
 
     # screamshot
     Key([mod], "p", lazy.spawn("scrot")),
@@ -83,7 +112,6 @@ for i,group in enumerate(groups):
     keys.extend([
         # mod1 + letter of group = switch to group
         Key([mod], actual_key, lazy.group[group.name].toscreen()),
-
         Key([mod, "shift"], actual_key, lazy.window.togroup(group.name))
     ])       
 
@@ -92,18 +120,7 @@ layouts = [
         border_width=6, 
         border_focus='#00bb2d'
         ),
-    layout.Max(),
-    # Try more layouts by unleashing below layouts.
-    # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
-    # layout.Matrix(),
-    # layout.MonadTall( border_width = 3,border_focus = "#00ff00", margin = 6),
-    # layout.MonadWide(),
-    # layout.RatioTile(),
-    # layout.Tile(),
-    # layout.TreeTab(),
-    # layout.VerticalTile(),
-    # layout.Zoomy(),
+    layout.Max(), 
 ]
 
 widget_defaults = dict(
@@ -117,11 +134,7 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.Sep(
-                    padding= 10,
-                    background = ["#FFA500","#ed1717"],
-                    foreground = ["#FFA500","#ed1717"]
-                ),
+                sep(["#FFA500","#ed1717"]),
                 widget.GroupBox(
                     background = ["#FFA500","#ed1717"],
                     foreground = "#101010",
@@ -130,87 +143,55 @@ screens = [
                     active = "#101010",
                     inactive = "#F4F3EF"
                 ),
-                widget.TextBox(
-                    text = "  ",
-                    fontsize = 60,
-                    padding = -3,
-                    foreground = ["#FFA500","#ed1717"],
-                    background = "#101010"
-                    
-                ),
+                triangle_2("#101010",["#FFA500","#ed1717"]),
+               
                 widget.WindowName(
                     background = "#101010",
                     max_chars = 40,
-                    padding = 12
+                    padding = 12,
+                    font = 'sans',
+                    fontsize = 13,
+                ),
+                triangle_2(["#7f00ff","#20165b"],'#101010'),
 
-                ),
-                
-                widget.Systray(
-                    background = "#101010",
-                    padding = 8,
+                icon("龍",["#7f00ff","#20165b"]),
 
-                ),
-                widget.TextBox(
-                    text = " ",
-                    fontsize = 43,
-                    padding = -1,
-                    foreground = ["#7f00ff","#20165b"],
-                    background = "#101010",
-                ),
-                widget.TextBox(
-                    text = ",",
-                    fontsize = 15,
-                    foreground = "#efebd8",
+                sep(["#7f00ff","#20165b"]),
+
+                widget.Net(
                     background = ["#7f00ff","#20165b"],
+                    format = '{down} {up}',
+                    interface = 'wlp3s0',
+                    use_bits= 'true'
                 ),
-                widget.CheckUpdates(
-                    custom_command = "checkupdates",
-                    background = ["#7f00ff","#20165b"],
-                    update_interval = 100,
-                    colour_have_updates = "#f4f3ef",
-                    colour_no_updates = "#ff5500",
-                    display_format="act:{updates}",
-                    padding = 10,
-                    fontsize = 15
-                    
-                ),
-                widget.TextBox(
-                    text = " ",
-                    fontsize = 43,
-                    padding = -1,
-                    foreground = ["#52b2bf","#1338be"],
-                    background = ["#7f00ff","#20165b"]
-                ),
+                triangle(["#7f00ff","#20165b"],["#52b2bf","#1338be"]),
+
                 widget.CurrentLayout(
                     background = ["#52b2bf","#1338be"],
                     foreground = "#101010",
                     fontsize = 16
                 ),
-                widget.Sep(
-                    background = ["#52b2bf","#1338be"],
-                    foreground = ["#52b2bf","#1338be"],
-                    padding = 3,
-                ),
+                
+                sep(["#52b2bf","#1338be"]),
+
                 widget.CurrentLayoutIcon(
                     background = ["#52b2bf","#1338be"],
                     foreground = "#5b0a91",
                     scale = 0.70,
                     
                 ),
-                widget.TextBox(
-                    text = " ",
-                    fontsize = 43,
-                    padding = -1,
-                    foreground = ["#59788e", "#52b2bf"],
-                    background = ["#52b2bf","#1338be"],
-                ),
-                #["#59788e", "#52b2bf"],
+
+                triangle(["#52b2bf","#1338be"],["#59788e", "#52b2bf"]),
+               
                 widget.Clock(
                     format=' %I:%M ',
                     background = ["#59788e", "#52b2bf"],
                     foreground = "#000000"  
                 ),
-                
+                widget.Systray(
+                    background = "#101010",
+                    padding = 8,
+                ),
             ],
             25,
         ),
